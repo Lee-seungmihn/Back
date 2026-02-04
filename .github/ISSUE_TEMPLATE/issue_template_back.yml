@@ -28,7 +28,7 @@ body:
     id: api-details
     attributes:
       label: 🔗 Controller 설계/구현
-      placeholder: |
+      placeholder: 
         - Method: POST / GET / PATCH / DELETE
         - Endpoint: /api/v1/resource
         - Request Body / Query Params 예시를 적어주세요.
