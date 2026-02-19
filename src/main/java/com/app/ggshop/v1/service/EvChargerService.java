@@ -1,15 +1,19 @@
 package com.app.ggshop.v1.service;
 
 import com.app.ggshop.v1.common.enumeration.Status;
+import com.app.ggshop.v1.common.pagination.Criteria;
 import com.app.ggshop.v1.domain.EvChargerVO;
 import com.app.ggshop.v1.dto.EvChargerDTO;
+import com.app.ggshop.v1.dto.PostWithPagingDTO;
 import com.app.ggshop.v1.repository.EvChargerDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.DateUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -55,4 +59,85 @@ public class EvChargerService {
         return chargerList;
     }
 
+//    public PostWithPagingDTO list(int page){
+//
+//        PostWithPagingDTO postWithPagingDTO = new PostWithPagingDTO();
+//
+//        Criteria criteria = new Criteria(page, evChargerDAO.findTotal());
+//
+//        List<EvChargerDTO> evCharger = evChargerDAO.findAll(criteria);
+////
+////        criteria.setHasMore(posts.size() > criteria.getRowCount());
+////        postWithPagingDTO.setCriteria(criteria);
+////
+////        if(criteria.isHasMore()){
+////            posts.remove(posts.size() - 1);
+////        }
+////
+////
+////        postWithPagingDTO.setPosts(posts);
+//
+//        return postWithPagingDTO;
+//    }
+
+// 목록
+    public PostWithPagingDTO list(int page){
+        PostWithPagingDTO postWithPagingDTO = new PostWithPagingDTO();
+        int total = evChargerDAO.findTotal();
+
+        Criteria criteria = new Criteria(page, total);
+
+        List<EvChargerDTO> list = evChargerDAO.findAll(criteria);
+
+        criteria.setHasMore(list.size() > criteria.getRowCount());
+        postWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()){
+            list.remove(list.size() - 1);
+        }
+
+
+        postWithPagingDTO.setEvChargerList(list);
+
+        return postWithPagingDTO;
+    }
+
+    public PostWithPagingDTO searchEvChargers(String searchType, String keyword, int page) {
+        PostWithPagingDTO postWithPagingDTO = new PostWithPagingDTO();
+
+        // 검색 조건에 맞는 전체 개수 조회
+        int total = evChargerDAO.findTotalBySearch(searchType, keyword);
+
+        Criteria criteria = new Criteria(page, total);
+
+        // 검색 결과 조회 (페이징 포함)
+        List<EvChargerDTO> list = evChargerDAO.findBySearch(searchType, keyword, criteria);
+
+        criteria.setHasMore(list.size() > criteria.getRowCount());
+        postWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()){
+            list.remove(list.size() - 1);
+        }
+
+        postWithPagingDTO.setEvChargerList(list);
+
+        return postWithPagingDTO;
+    }
+
+    // ID로 충전소 조회
+    public EvChargerDTO getEvChargerById(Long id) {
+        return evChargerDAO.findById(id);
+    }
+
+    // 충전소 수정
+    public void updateEvCharger(EvChargerDTO evChargerDTO) {
+        evChargerDAO.update(evChargerDTO);
+    }
+
+    // 충전기 삭제
+
+    public void remove(Long id) {
+        evChargerDAO.delete(id);
+    }
 }

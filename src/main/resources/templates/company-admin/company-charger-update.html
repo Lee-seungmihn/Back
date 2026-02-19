@@ -1,132 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기업 - 충전소 수정</title>
-        <!-- favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="../../static/images/favicon/favicon.ico">
-        <link rel="apple-touch-icon" sizes="57x57" href="../../static/images/favicon/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="../../static/images/favicon/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="../../static/images/favicon/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="../../static/images/favicon/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="../../static/images/favicon/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="../../static/images/favicon/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="../../static/images/favicon/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="../../static/images/favicon/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="../../static/images/favicon/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192"  href="../../static/images/favicon/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="../../static/images/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="../../static/images/favicon/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="../../static/images/favicon/favicon-16x16.png">
+    <title>기업 - 충전소 상세</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
 
-        <!-- 폰트 -->
-        <link rel="stylesheet" href="/static/css/common/font.css" />
+    <!-- 폰트 -->
+    <link rel="stylesheet" href="/css/common/font.css" />
+    <!-- 스타일 초기화 css -->
+    <link rel="stylesheet" href="/css/common/reset.css" />
+    <!-- 공통 css -->
+    <link rel="stylesheet" href="/css/common/common.css">
+    <!-- fontawesome 꾸며진 폰트 -->
+    <link rel="stylesheet" href="/css/common/fontawesome.css">
+    <!-- 유틸 css -->
+    <link rel="stylesheet" href="/css/common/util.css" />
+    <!-- 유틸 2 -->
+    <link rel="stylesheet" href="/css/company-admin/company-utill.css">
+    <!-- 개별 css 스타일 -->
+    <link rel="stylesheet" href="/css/company-admin/company-charger-update.css" />
 
-        <!-- 스타일 초기화 css -->
-        <link rel="stylesheet" href="/static/css/common/reset.css" />
+    <link type="text/css" th:href="@{/css/company-admin/top.css}" rel="stylesheet" />
+    <link type="text/css" th:href="@{/css/company-admin/menu-flex.css}" rel="stylesheet" />
 
-        <!-- 공통 css -->
-        <link rel="stylesheet" href="/static/css/common/common.css">
+    <style>
+        /* 컨테이너 기본 설정 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-        <!-- fontawesome 꾸며진 폰트 -->
-        <link rel="stylesheet" href="/static/css/common/fontawesome.css">
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-        <!-- 유틸 css -->
-        <link rel="stylesheet" href="/static/css/common/util.css" />
+        .lg\:col-9 {
+            width: 100%;
+            max-width: 900px;
+        }
 
-        <!-- 유틸 2 -->
-        <link rel="stylesheet" href="/static/css/company-admin/company-utill.css"> 
+        /* 페이지 제목 */
+        .page-title h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-        <!-- 개별 css 스타일 -->
-        <link rel="stylesheet" href="/static/css/company-admin/company-charger-update.css" />
+        /* 폼 스타일 */
+        .form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
 
+        .request-form {
+            width: 100%;
+        }
+
+        /* 필드 스타일 */
+        .field-value {
+            padding: 12px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            color: #333;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .field-value.textarea {
+            min-height: 100px;
+            align-items: flex-start;
+            white-space: pre-wrap;
+        }
+
+        /* 푸터 버튼 */
+        footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .btn-cancel, .btn-submit {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-submit {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+        }
+
+        .btn-submit:hover {
+            background: #0056b3;
+        }
+
+        /* 브레드크럼 */
+        .breadcrumbs {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumbs li {
+            margin-right: 10px;
+        }
+
+        .breadcrumbs li:not(:last-child)::after {
+            content: ">";
+            margin-left: 10px;
+            color: #999;
+        }
+
+        /* 삭제 버튼 추가 */
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <main role="main">
-        <!-- 컨테이너 -->
-        <div class="container flex-1 quiry-contents-box" id="page-container">
-            <!-- 가로 정렬용 div -->
-            <div class="row align-items-center"></div>
-            
-            <!-- 전체 내용 영역 -->
-            <div class="row">
-                <div class="lg:col-9">
 
-                    <!-- 현재 페이지 안내 문구 -->
-                    <nav class="col font-size-md font-medium page-nav-reset">
-                        <ol class="breadcrumbs">
-                            <li title="충전소 관리">
-                                <a href="#!">충전소 관리</a>
-                            </li>
-                            <li title="충전소 수정">
-                                충전소 수정
-                            </li>
-                        </ol>
-                    </nav>
+<div th:replace="/company-admin/top::top" style="margin-bottom: 20px;"></div>
 
-                    <!-- 헤더: 제목 -->
-                    <header class="mb-5 header-style page-title">
-                        <h1>충전소 정보 수정</h1>
-                    </header> 
+<main role="main">
+    <!-- 컨테이너 -->
+    <div class="container flex-1 quiry-contents-box" id="page-container">
 
-                    <!-- 바디: 작성 내용 -->
-                    <div class="form height-fixed">
+        <!-- 전체 내용 영역 -->
+        <div class="row">
+            <div class="lg:col-9">
 
-                        <!-- 등록 정보 작성 폼 -->
-                        <!-- (서버 구현 시 action/method 설정) -->
-                        <form class="request-form" id="new-request">
+                <!-- 현재 페이지 안내 문구 -->
+                <nav class="col font-size-md font-medium page-nav-reset">
+                    <ol class="breadcrumbs">
+                        <li title="충전소 관리">
+                            <a th:href="@{/ev/evcharger/list/1}">충전소 관리</a>
+                        </li>
+                        <li title="충전소 상세">
+                            충전소 상세
+                        </li>
+                    </ol>
+                </nav>
 
-                            <!-- 작성 내용 -->
-                            <div class="form-field string install-date">
-                                <label for="install-date">설치일자</label>
-                                <input type="text" id="install-date" name="installDate" value="2026-01-01" readonly>
-                                
-                                <!-- 기본 노출 메세지 -->
-                                <p class="field-hint">※ 수정할 수 없는 정보입니다.</p>
-                            </div>
+                <!-- 헤더: 제목 -->
+                <header class="mb-5 header-style page-title">
+                    <h1>충전소 상세 정보</h1>
+                </header>
 
-                            <!-- 작성 내용 -->
-                            <div class="form-field string station-number">
-                                <label for="station-number">충전소 번호</label>
-                                <input type="text" id="station-number" name="stationNumber" value="ST-000123" readonly>
-                                
-                                <!-- 기본 노출 메세지 -->
-                                <p class="field-hint" >※ 수정할 수 없는 정보입니다.</p>
-                            </div>
+                <!-- 바디: 상세 내용 (읽기 전용) -->
+                <div class="form height-fixed">
+                    <div class="request-form">
 
-                            <!-- 작성 내용 -->
-                            <div class="form-field string install-address">
-                                <label for="install-address">설치주소</label>
-                                <input type="text" id="install-address" name="installAddress">
-                               
-                                <!-- 기본 노출 메세지 -->
-                                <p class="field-hint">변경 사항을 입력해주세요.</p>
-                               
-                                <!-- 에러 메세지 -->
-                                <p class="field-error" hidden>※필수 입력 항목입니다.</p>
-                            </div>
+                        <!-- 설치일자 -->
+                        <div class="form-field string install-date">
+                            <label>설치일자</label>
+                            <div class="field-value" th:text="${charger.installDate}">2026-01-01</div>
+                        </div>
 
-                            <!-- 특이사항 작성 -->
-                            <div class="form-field text charger-note no-required-mark">
-                                <label for="charger-note">특이사항</label>
-                                <textarea name="chargerNote" id="charger-note"></textarea>
-                                <p>* 추가로 확인이 필요하거나, 관리가 필요한 내용이 있을 경우 작성해주세요. </p>
-                            </div>
-                       
-                            <!-- 푸터: 취소/완료 버튼 -->
-                            <footer>
-                                <input class="btn-cancel" type="submit" name="commit" value="취소">
-                                <input class="btn-submit" type="submit" name="commit" value="수정 완료">
-                            </footer>
+                        <!-- 충전소 번호 -->
+                        <div class="form-field string station-number">
+                            <label>충전소 번호</label>
+                            <div class="field-value" th:text="${charger.stationNumber}">ST-000123</div>
+                        </div>
+
+                        <!-- 설치주소 -->
+                        <div class="form-field string install-address">
+                            <label>설치주소</label>
+                            <div class="field-value" th:text="${charger.installAddress}">서울시 강남구...</div>
+                        </div>
+
+                        <!-- 특이사항 -->
+                        <div class="form-field text charger-note">
+                            <label>특이사항</label>
+                            <div class="field-value textarea" th:text="${charger.chargerNote} ?: '없음'">특이사항 내용</div>
+                        </div>
+
+                        <!-- 푸터: 목록/수정 버튼 -->
+<!--                        <footer>-->
+<!--                            <input class="btn-cancel"-->
+<!--                                   type="button"-->
+<!--                                   value="목록으로"-->
+<!--                                   th:onclick="|location.href='@{/ev/evcharger/list/1}'|">-->
+<!--                            <input class="btn-submit"-->
+<!--                                   type="button"-->
+<!--                                   value="수정"-->
+<!--                                   th:onclick="|location.href='@{/ev/evcharger/update/{id}(id=${charger.id})}'|">-->
+<!--                        </footer>-->
+
+                        <!-- 푸터: 버튼들 -->
+                        <footer>
+                            <input class="btn-cancel"
+                                   type="button"
+                                   value="목록으로"
+                                   th:onclick="|location.href='@{/ev/evcharger/list/1}'|">
+                            <input class="btn-delete"
+                                   type="button"
+                                   value="삭제"
+                                   th:onclick="|if(confirm('정말 삭제하시겠습니까?')) { document.getElementById('deleteForm').submit(); }|">
+                            <input class="btn-submit"
+                                   type="button"
+                                   value="수정"
+                                   th:onclick="|location.href='@{/ev/evcharger/update/{id}(id=${charger.id})}'|">
+                        </footer>
+
+                        <!-- 삭제 폼 (숨김) -->
+                        <form id="deleteForm"
+                              th:action="@{/ev/evcharger/delete/{id}(id=${charger.id})}"
+                              method="post"
+                              style="display: none;">
                         </form>
-
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </main>
+    </div>
+</main>
 </body>
-<script src="/static/js/company-admin/company-charger-update.js"></script>
 </html>
